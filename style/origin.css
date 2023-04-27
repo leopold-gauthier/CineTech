@@ -1,0 +1,197 @@
+html,body{
+    margin: 0%;
+
+    padding: 0%;
+}
+
+/* Body */
+body{
+    height: 100vh;
+}
+#details{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+
+
+}
+
+#index{
+
+
+}
+/* --------------------- */
+/* GLOBAL */
+
+h2{
+    margin: 2.5%;
+    font-size: 1.5rem;
+}
+
+
+
+/* Container et Main */
+main{
+height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#detail_container{
+    height: 100vh;
+
+
+}
+
+#index_container{
+    text-align: center;
+    background: linear-gradient(#272727, #0d0d0d);
+    border-top: 1px solid white;
+    color: white;
+
+}
+/* ------------------ */
+#nav{
+    background-color: #272727 !important;
+    color: white !important;
+    z-index: 99;
+
+}
+nav a{
+    color: white !important;
+
+}
+
+
+
+/* Login and SignUp */
+#fonction_users{
+    height: 40em;
+    width: 30em;
+    background: linear-gradient(#323232, #282828);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+#fonction_close{
+    color: white;
+    font-size: large;
+    position: absolute;
+    top:0%;
+    right: 2%;
+
+}
+/* -------------------------- */
+
+/* Search-BAR */
+#result{
+   top: 50px;
+    padding-inline: 25px;
+    background-color: #272727;
+    position: absolute;
+}
+
+
+/* ---------- */
+
+.affiche{
+    overflow-x: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.image_poster{
+height: 200px;
+}
+
+
+
+#film-description{
+
+    margin: 0%;
+    padding: 0%;
+    display: flex;
+    flex-direction: column;
+
+
+
+}
+
+
+#title{
+    text-align: center;
+letter-spacing: 1em;
+padding: 2%;
+color: white;
+
+
+}
+
+#resume{
+    background: linear-gradient(#00000000, #222222);
+    padding: 5%;
+    color: white;
+
+}
+#note{
+    text-align: center;
+    color: white;
+
+}
+
+img{
+    margin: 5%;
+    height: 200px;
+}
+
+
+/* SCROLL-BAR */
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: #000000;
+    height: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(0, 0, 0); 
+    border-radius: 10px;
+    background-color: #272727;
+    width: 10px;
+    height: 10px;
+
+
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: red; 
+    width: 10px;
+    height: 10px;
+
+
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b30000; 
+    width: 10px;
+    height: 10px;
+
+  }
+
+  .navbar-toggler{
+background-color: white;
+color: white;
+  }
