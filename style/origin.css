@@ -23,6 +23,12 @@ body{
 /* --------------------- */
 /* GLOBAL */
 
+a{
+    text-decoration: underline;
+    color: white;
+}
+
+
 h2{
     margin: 2.5%;
     font-size: 1.5rem;
@@ -154,6 +160,19 @@ img{
     height: 200px;
 }
 
+#commentaire{
+    background-color: #272727;
+    height: auto;
+    color: white;
+
+}
+
+#add{
+    padding: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 5%;
+}
 
 /* SCROLL-BAR */
 
