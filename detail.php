@@ -1,4 +1,5 @@
 <?php ob_start(); ?>
+
 <!DOCTYPE html>
 
 
@@ -61,19 +62,12 @@
                     ?>
                 </div>
 
-
-
-
-
                 <?php
                 // DECLARATION SQL
                 // commentaire
                 $recupCommentaire = $bdd->prepare("SELECT type, id_film ,`commentaires`.`id`,`commentaires`.`id_utilisateur`, login, avatar, commentaire , date FROM commentaires  JOIN users ON users.id = commentaires.id_utilisateur WHERE id_film = ? ORDER BY date DESC");
                 $recupCommentaire->execute([$_GET['id']]);
                 $commentaire = $recupCommentaire->fetchAll(PDO::FETCH_ASSOC);
-                // reponse
-                $recupReponse = $bdd->query("SELECT users.login, users.avatar, reponses.id, reponses.id_utilisateur,reponses.id_commentaire, reponses.reponse, reponses.date_reponse FROM reponses JOIN users ON reponses.id_utilisateur = users.id JOIN commentaires ON reponses.id_commentaire = commentaires.id ORDER BY date_reponse DESC;");
-                $reponse = $recupReponse->fetchAll(PDO::FETCH_ASSOC);
 
                 ///// AFFICHER COMMENTAIRE ////
                 for ($i = 0; $i < sizeof($commentaire); $i++) :
@@ -93,79 +87,19 @@
                                 <?= $commentaire[$i]['commentaire'] ?>
                             </i>
                         </p>
-                        <!-- EDITER COMMENTAIRE -->
                         <div id="modified">
                             <?php
                             if (isset($_SESSION['user']->login) == null) {
                                 echo "";
                             } elseif ($commentaire[$i]['login'] == $_SESSION['user']->login || $_SESSION['user']->login == 'admin') { ?>
-                                <a href="./detail.php?com_id=<?= $commentaire[$i]['id'] ?>">Supprimer</a>
+                                <a href="./detail.php?id=<?= $commentaire[$i]['id_film'] ?>&type=<?= $commentaire[$i]['type'] ?>&com_id=<?= $commentaire[$i]['id'] ?>">Supprimer</a>
                             <?php
                             } elseif ($commentaire[$i]['login'] != $_SESSION['user']->login) {
-                            ?>
-                                <!-- <a class="repondre" href="./detail.php?id=<?php
-                                                                                // $commentaire[$i]['id_film'] 
-                                                                                ?>&type=<?php
-                                                                                        // $commentaire[$i]['type'] 
-                                                                                        ?>>">Répondre</a> -->
-                                <u><a id="monAncre">Répondre</a></u>
-                                <div id="maDiv" style="display:none;">
-                                    <form method="POST">
-                                        <textarea></textarea>
-                                        <br />
-                                        <button type="submit">Répondre</button>
-                                    </form>
-                                </div>
-                            <?php
+                                echo "A venir !";
                             }
                             ?>
                         </div>
 
-                        <!-- ----------------------------------------------------------------------------------------------------------------------------------------------------- -->
-                        <!-- //// AFFICHER REPONSE //// -->
-                        <?php
-                        $recupReponse = $bdd->query("SELECT users.login, users.avatar, reponses.id, reponses.id_utilisateur,reponses.id_commentaire, reponses.reponse, reponses.date_reponse FROM reponses JOIN users ON reponses.id_utilisateur = users.id JOIN commentaires ON reponses.id_commentaire = commentaires.id ORDER BY date_reponse DESC;");
-                        $reponse = $recupReponse->fetchAll();
-
-                        for ($a = 0; $a < sizeof($reponse); $a++) :
-                            if ($reponse[$a]['id_commentaire'] == $livreor[$i]['id']) {
-
-                        ?>
-                                <div class="reponse">
-                                    <h2><?php if ($reponse[$a]['login'] === 'admin') {
-                                            echo "<img height='21px' src='../css/icone-utilisateur-rouge.png'>";
-                                        } else {
-                                            echo "<img height='21px' src='../css/icone-utilisateur-rouge.png'>";
-                                        }
-                                        ?>
-                                        Réponse de <?= $reponse[$a]['login'] ?> le <?= $reponse[$a]['date_reponse'] ?>
-                                    </h2>
-                                    <p>
-                                        <i>
-                                            <?= $reponse[$a]['reponse'] ?>
-                                        </i>
-                                    </p>
-                                    <div id="modified">
-                                        <?php
-                                        if (isset($_SESSION['login']) == null) {
-                                            echo "";
-                                        } elseif ($reponse[$a]['login'] === $_SESSION['login'] || $_SESSION['login'] === 'admin') { ?>
-                                            <a href="./delete_rep.php?id=<?= $reponse[$a]['id'] ?>">Supprimer</a>
-                                            |
-                                            <a href="./reponse.php?edit=<?= $reponse[$a]['id'] ?>">Editer</a>
-                                        <?php
-                                        } elseif ($reponse[$a]['login'] != $_SESSION['login']) {
-                                            echo "";
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-
-                        <?php
-                            }
-                        endfor; //  include_once("./include/reponse-include.php")
-
-                        ?>
                     </div>
                 <?php
                 endfor;
@@ -178,7 +112,7 @@
 
     <?php
     if ($_GET['id'] == "") {
-        header("Location: ./index.php");
+        // header("Location: ./index.php");
     } else {
         if (isset($_GET['id'])) { ?>
             <script>
@@ -188,21 +122,22 @@
                 const divnote = document.getElementById('note');
                 const divimg = document.getElementById('img');
                 const backgroundimgURL = "https://image.tmdb.org/t/p/original/";
-
                 const imageElem = document.createElement('img');
 
 
                 function getIdMovie() {
                     let URL = window.location.href;
-                    let id = URL.split('=')[1];
+                    let shortURL = URL.split('=')[1];
+                    let id = shortURL.split('&')[0];
                     return id;
                 }
 
+
                 function getTypeMovie() {
                     let URL = window.location.href;
-                    let type = URL.split('=')[2];
+                    let shortURL = URL.split('=')[2];
+                    let type = shortURL.split('&')[0];
                     return type;
-
                 }
                 console.log(getTypeMovie());
                 fetch('https://api.themoviedb.org/3/' + getTypeMovie() + '/' + getIdMovie() + '?api_key=fbb9472bd2e3a619b71b54604ea7aacc&language=fr-FR')
@@ -288,6 +223,7 @@
 <?php
 
 // BACKEND
+
 // --- POSTER UN COMMMENTAIRE ---
 if (isset($_POST['commentaire'])) {
     $id_utilisateur = $_SESSION['user']->id;
@@ -300,31 +236,23 @@ if (isset($_POST['commentaire'])) {
         $getUser->execute([$commentaire, $id_utilisateur, $_GET['id'], $_GET['type'], $date]);
         $message = "Votre message a bien été posté";
         header("refresh:1");
-    } else {
-        $update = $bdd->prepare('UPDATE commentaires SET commentaire = ? , date_time_edition = ? WHERE id = ?');
-        $update->execute([$commentaire, $date, $edit_id]);
-        header("refresh:1");
     }
 } else {
     $message = "Veuillez écrire un commentaire";
 }
 
 // --- SUPPRIMER COMMENTAIRE ---
-if (isset($_GET['comm_id'])) {
-    if (isset($_GET['comm_id']) == $commentaire[0]['id'] && isset($_SESSION['id']) == $commentaire[0]['id_utilisateur']) {
-        if (isset($_GET['com_id']) and !empty($_GET['com_id'])) {
+if (isset($_GET['com_id'])) {
+    if (isset($_GET['com_id']) == $commentaire[0]['id'] && isset($_SESSION['user']->id) == $commentaire[0]['id_utilisateur']) {
+        if (!empty($_GET['com_id'])) {
 
-            $suppr_id = htmlspecialchars($_GET['com_id']);
-
+            $suppr_id = $_GET['com_id'];
             $suppr = $bdd->prepare('DELETE FROM commentaires WHERE id = ?');
             $suppr->execute(array($suppr_id));
-
-            header("refresh:1");
+            header('Location: ./detail.php?id=' . $_GET['id'] . '&type=' . $_GET['type'] . '');
         } else {
-            // header('refresh:1');
         }
     } else {
-        // header('refresh:1');
     }
 }
 ?>
