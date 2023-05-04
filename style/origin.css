@@ -133,6 +133,24 @@ height: 200px;
 
 }
 
+#img{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+#img form{
+    /* border:solid 1px #b30000; */
+    /* border-radius: 25% 0% 0% 25%; */
+    background: linear-gradient(0.25turn, #00000000,  #272727);
+    font-size: xx-large;
+    /* margin: 20%; */
+    padding: 1% 7% 1% 0%;
+}
+form button{
+    background-color: #00000000;
+    border: none;
+}
 
 #title{
     text-align: center;
@@ -175,8 +193,14 @@ img{
 }
 
 .message{
-padding: 0% 20% 0% 20%;
+padding: 0% 20% 10% 20%;
 }
+
+textarea{  
+    overflow:hidden !important;
+    padding:10px !important;
+    display:block !important;
+  }
 
 h2 img{
     height: 50px !important;
