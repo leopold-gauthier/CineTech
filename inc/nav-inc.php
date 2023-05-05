@@ -11,18 +11,10 @@
                     <a class="nav-link active" aria-current="page" href="./index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Serie</a>
+                    <a class="nav-link" href="./serie.php">Serie</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Film</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Catégorie
-                    </a>
-                    <ul id="genre" class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#"></a></li>
-                    </ul>
                 </li>
                 <?php if (!empty($_SESSION)) {
                 ?>
@@ -52,10 +44,10 @@
             <div class="justify-content-end collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="?connect">Se connecter</a>
+                        <a class="nav-link" href="index.php?connect">Se connecter</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="?signup">S'inscrire</a>
+                        <a class="nav-link" href="index.php?signup">S'inscrire</a>
                     </li>
                 </ul>
             </div>

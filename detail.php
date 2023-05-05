@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php include_once("./inc/link.inc.php") ?>
     <script src="./script/autocompletion.js" defer></script>
+    <script src="./script/detail.js" defer></script>
     <title>Infos</title>
 </head>
 
@@ -63,7 +64,6 @@
                 $recupCommentaire->execute([$_GET['id']]);
                 $commentaire = $recupCommentaire->fetchAll(PDO::FETCH_ASSOC);
 
-                ///// AFFICHER COMMENTAIRE ////
                 for ($i = 0; $i < sizeof($commentaire); $i++) :
                 ?>
                     <div class="message">
@@ -144,7 +144,7 @@
 
                         <?php
                             }
-                        endfor; //  include_once("./include/reponse-include.php")
+                        endfor;
 
                         ?>
 
@@ -152,133 +152,9 @@
                 <?php
                 endfor;
                 ?>
-
-
             </div>
         </div>
     </main>
-
-    <?php
-    if ($_GET['id'] == "") {
-        // header("Location: ./index.php");
-    } else {
-        if (isset($_GET['id'])) { ?>
-            <script>
-                const divfilmDesc = document.getElementById('film-description');
-                const divtitle = document.getElementById("title");
-                const divresume = document.getElementById('resume');
-                const divnote = document.getElementById('note');
-                const divimg = document.getElementById('img');
-                const backgroundimgURL = "https://image.tmdb.org/t/p/original/";
-                const imageElem = document.createElement('img');
-
-
-                function getIdMovie() {
-                    let URL = window.location.href;
-                    let shortURL = URL.split('=')[1];
-                    let id = shortURL.split('&')[0];
-                    return id;
-                }
-
-
-                function getTypeMovie() {
-                    let URL = window.location.href;
-                    let shortURL = URL.split('=')[2];
-                    let type = shortURL.split('&')[0];
-                    return type;
-                }
-                console.log(getTypeMovie());
-                fetch('https://api.themoviedb.org/3/' + getTypeMovie() + '/' + getIdMovie() + '?api_key=fbb9472bd2e3a619b71b54604ea7aacc&language=fr-FR')
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        const movie = data;
-                        const title = movie.title;
-                        const name = movie.name;
-                        const biography = movie.biography;
-                        const resume = movie.overview;
-                        const popularity = (Math.round(movie.popularity));
-                        const id = movie.id;
-                        const note = (Math.round(movie.vote_average));
-                        const image = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-                        const profile = `https://image.tmdb.org/t/p/w500${movie.profile_path}`;
-                        // movieElem.classList.add('movie_poster');
-
-
-                        // NAME
-                        if (getTypeMovie() == "movie") {
-                            divtitle.append(title);
-                        } else {
-                            divtitle.append(name);
-                        }
-                        // IMAGE
-                        if (getTypeMovie() == "movie" || getTypeMovie() == "tv") {
-                            imageElem.src = image;
-                        } else {
-                            imageElem.src = profile;
-                        }
-                        // RESUME
-                        if (getTypeMovie() == "movie" || getTypeMovie() == "tv") {
-                            divresume.append(resume);
-                        } else {
-                            divresume.append(biography);
-                        }
-                        // NOTE
-                        if (getTypeMovie() == "movie" || getTypeMovie() == "tv") {
-                            divnote.append(note);
-                        } else {
-                            divnote.append(popularity);
-                        }
-                        divimg.append(imageElem);
-
-
-
-
-                        // titleElem.textContent = title;
-                        // imageElem.src = image;
-                        // imageElem.dataset.id = id; // stocker l'ID du film dans un attribut personnalisé
-                        // 
-                        // Récupération de l'image de fond
-                        const backdropPath = data.backdrop_path;
-                        const backgroundImageURL = backgroundimgURL + backdropPath;
-
-                        // Mise à jour du style de l'élément avec l'image de fond
-                        document.body.style.backgroundImage = `url('${backgroundImageURL}')`;
-                    })
-            </script>
-    <?php }
-    }
-    ?>
-    <!-- SCRIPT POUR AFFICHER LE TEXTAREA ET L'AUTRE POUR AUTO RESIZE LE TEXTAREA  -->
-    <script>
-        var monAncre = document.querySelector(".monAncre");
-        var maDiv = document.querySelector(".maDiv");
-
-        // Ajoute un écouteur d'événements au clic sur l'élément d'ancre
-        monAncre.addEventListener("click", function(event) {
-            event.preventDefault(); // Empêche le comportement par défaut de l'ancre
-
-            // Si la div est déjà affichée, la cache, sinon l'affiche
-            if (maDiv.style.display === "block") {
-                maDiv.style.display = "none";
-            } else {
-                maDiv.style.display = "block";
-            }
-        });
-
-        var textarea = document.querySelector('textarea');
-
-        textarea.addEventListener('keydown', autosize);
-
-        function autosize() {
-            var el = this;
-            setTimeout(function() {
-                el.style.cssText = 'height:auto; padding:0';
-                el.style.cssText = 'height:' + el.scrollHeight + 'px';
-            }, 0);
-        }
-    </script>
-    <!-- ---------------------------------------------------------- -->
 </body>
 
 </html>
@@ -289,45 +165,50 @@
 
 
 // ///////////////////////////////////// FAVORITE ////////////////////////////////////////////////////
-$recup = $bdd->prepare("SELECT * FROM `favori` WHERE id_utilisateur = ? AND id_film = ?");
-$recup->execute([$_SESSION['user']->id, $_GET['id']]);
-$favoris = $recup->fetch(PDO::FETCH_ASSOC);
+if (isset($_SESSION['user'])) {
 
-$id_film = $_GET['id'];
-$type = $_GET['type'];
-$id_utilisateur = $_SESSION['user']->id;
 
-// REQUETE
-if (isset($_POST['favorite'])) {
-    if (empty($favoris)) {
-        $stmt = $bdd->prepare("INSERT INTO favori (`id_film` ,`type` ,`id_utilisateur` ) VALUES (?,?,?) ");
-        $stmt->execute(array($id_film, $type, $id_utilisateur));
-        header('Location: ./detail.php?id=' . $_GET['id'] . '&type=' . $_GET['type'] . '');
-    } else {
-        $stmt = $bdd->prepare("DELETE FROM favori WHERE id_utilisateur = ? AND id_film = ?");
-        $stmt->execute(array($id_utilisateur, $id_film));
-        header('Location: ./detail.php?id=' . $_GET['id'] . '&type=' . $_GET['type'] . '');
+    $recup = $bdd->prepare("SELECT * FROM `favori` WHERE id_utilisateur = ? AND id_film = ?");
+    $recup->execute([$_SESSION['user']->id, $_GET['id']]);
+    $favoris = $recup->fetch(PDO::FETCH_ASSOC);
+
+
+    // REQUETE
+    if (isset($_POST['favorite'])) {
+
+
+        $id_film = $_GET['id'];
+        $type = $_GET['type'];
+        $id_utilisateur = $_SESSION['user']->id;
+
+        if (empty($favoris)) {
+            $stmt = $bdd->prepare("INSERT INTO favori (`id_film` ,`type` ,`id_utilisateur` ) VALUES (?,?,?) ");
+            $stmt->execute(array($id_film, $type, $id_utilisateur));
+            header('Location: ./detail.php?id=' . $_GET['id'] . '&type=' . $_GET['type'] . '');
+        } else {
+            $stmt = $bdd->prepare("DELETE FROM favori WHERE id_utilisateur = ? AND id_film = ?");
+            $stmt->execute(array($id_utilisateur, $id_film));
+            header('Location: ./detail.php?id=' . $_GET['id'] . '&type=' . $_GET['type'] . '');
+        }
     }
-}
-// ICONE
-if (empty($favoris)) {
+    // ICONE
+    if (empty($favoris)) {
 ?>
-    <script>
-        var iconeFavori = document.getElementById("favori");
+        <script>
+            var iconeFavori = document.getElementById("favori");
+            console.log(iconeFavori.className);
+            iconeFavori.className = "fa-regular fa-star";
+        </script>
+    <?php
+    } else {
+    ?>
+        <script>
+            var iconeFavori = document.getElementById("favori");
 
-        iconeFavori.classList.add("fa-regular");
-        iconeFavori.classList.remove("fa-solid");
-    </script>
+            iconeFavori.className = "fa-solid fa-star";
+        </script>
 <?php
-} else {
-?>
-    <script>
-        var iconeFavori = document.getElementById("favori");
-
-        iconeFavori.classList.add("fa-solid");
-        iconeFavori.classList.remove("fa-regular");
-    </script>
-<?php
+    }
 }
 ////////////////////////////////////////// REPONSE ///////////////////////////////////////////////////
 
@@ -381,5 +262,98 @@ if (isset($_GET['com_id'])) {
         }
     } else {
     }
+}
+?>
+
+
+<?php
+if ($_GET['id'] == "") {
+    header("Location: ./index.php");
+} else {
+    if (isset($_GET['id'])) { ?>
+        <script>
+            const divfilmDesc = document.getElementById('film-description');
+            const divtitle = document.getElementById("title");
+            const divresume = document.getElementById('resume');
+            const divnote = document.getElementById('note');
+            const divimg = document.getElementById('img');
+            const backgroundimgURL = "https://image.tmdb.org/t/p/original/";
+            const imageElem = document.createElement('img');
+
+
+            function getIdMovie() {
+                let URL = window.location.href;
+                let shortURL = URL.split('=')[1];
+                let id = shortURL.split('&')[0];
+                return id;
+            }
+
+
+            function getTypeMovie() {
+                let URL = window.location.href;
+                let shortURL = URL.split('=')[2];
+                let type = shortURL.split('&')[0];
+                return type;
+            }
+            console.log(getTypeMovie());
+            fetch('https://api.themoviedb.org/3/' + getTypeMovie() + '/' + getIdMovie() + '?api_key=fbb9472bd2e3a619b71b54604ea7aacc&language=fr-FR')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    const movie = data;
+                    const title = movie.title;
+                    const name = movie.name;
+                    const biography = movie.biography;
+                    const resume = movie.overview;
+                    const popularity = (Math.round(movie.popularity));
+                    const id = movie.id;
+                    const note = (Math.round(movie.vote_average));
+                    const image = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+                    const profile = `https://image.tmdb.org/t/p/w500${movie.profile_path}`;
+                    // movieElem.classList.add('movie_poster');
+
+
+                    // NAME
+                    if (getTypeMovie() == "movie") {
+                        divtitle.append(title);
+                    } else {
+                        divtitle.append(name);
+                    }
+                    // IMAGE
+                    if (getTypeMovie() == "movie" || getTypeMovie() == "tv") {
+                        imageElem.src = image;
+                    } else {
+                        imageElem.src = profile;
+                    }
+                    // RESUME
+                    if (getTypeMovie() == "movie" || getTypeMovie() == "tv") {
+                        divresume.append(resume);
+                    } else {
+                        divresume.append(biography);
+                    }
+                    // NOTE
+                    if (getTypeMovie() == "movie" || getTypeMovie() == "tv") {
+                        divnote.append(note);
+                    } else {
+                        divnote.append(popularity);
+                    }
+                    divimg.append(imageElem);
+
+
+
+
+                    // titleElem.textContent = title;
+                    // imageElem.src = image;
+                    // imageElem.dataset.id = id; // stocker l'ID du film dans un attribut personnalisé
+                    // 
+                    // Récupération de l'image de fond
+                    const backdropPath = data.backdrop_path;
+                    const backgroundImageURL = backgroundimgURL + backdropPath;
+
+                    // Mise à jour du style de l'élément avec l'image de fond
+                    document.body.style.backgroundImage = `url('${backgroundImageURL}')`;
+                })
+        </script>
+<?php }
 }
 ?>
