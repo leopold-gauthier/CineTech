@@ -9,8 +9,8 @@
     <?php include_once("./inc/link.inc.php") ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./script/autocompletion.js" defer></script>
-    <script src="./script/film.js" defer></script>
-    <title>Films</title>
+    <script src="./script/serie.js" defer></script>
+    <title>Favoris</title>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
     </header>
     <main>
         <div id="container">
-            <h1>Films populaires</h1>
+            <h1>Favoris</h1>
             <div id="series-container"></div>
             <div id="pagination"></div>
         </div>

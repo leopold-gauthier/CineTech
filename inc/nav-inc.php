@@ -8,13 +8,13 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="./index.php">Home</a>
+                    <a class="nav-link active" aria-current="page" href="./index.php">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./serie.php">Serie</a>
+                    <a class="nav-link" href="./serie.php">Series</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Film</a>
+                    <a class="nav-link" href="./film.php">Films</a>
                 </li>
                 <?php if (!empty($_SESSION)) {
                 ?>

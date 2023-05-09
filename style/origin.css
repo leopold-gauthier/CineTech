@@ -47,6 +47,12 @@ height: 100vh;
     flex-direction: column;
 }
 
+#container{
+    border-top: 1px solid white;
+    background-color: #272727;
+    color: white;
+}
+
 #detail_container{
     height: 100vh;
 
@@ -232,6 +238,7 @@ h2 img{
 }
 
 #pagination button {
+    padding: 10px 50px;
     border: none;
     margin: 0 5px;
 }

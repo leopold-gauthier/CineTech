@@ -18,10 +18,11 @@
         <?php include_once("./inc/nav-inc.php") ?>
     </header>
     <main>
-        <div id="container"></div>
-        <h1>Séries populaires</h1>
-        <div id="series-container"></div>
-        <div id="pagination"></div>
+        <div id="container">
+            <h1>Séries populaires</h1>
+            <div id="series-container"></div>
+            <div id="pagination"></div>
+        </div>
     </main>
     <footer>
 
