@@ -151,7 +151,9 @@ function getNowMovies() {
 
   
   
-  
+  getNowMovies();
   getNowMovies();
   getTopMovies();
+  getTopMovies();
+  getPopularMovies();
   getPopularMovies();

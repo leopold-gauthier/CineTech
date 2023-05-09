@@ -1,6 +1,6 @@
 html,body{
     margin: 0%;
-
+background-color: #272727;
     padding: 0%;
 }
 
@@ -44,7 +44,7 @@ height: 100vh;
 }
 
 #container{
-    height: 100%;
+    /* height: 100%; */
     border-top: 1px solid white;
     background-color: #272727;
     color: white;
@@ -117,8 +117,8 @@ nav a{
 
 /* ---------- */
 
+
 .affiche{
-    overflow-x: auto;
     display: flex;
     flex-direction: row;
 }
@@ -139,8 +139,6 @@ height: 200px;
     padding: 0%;
     display: flex;
     flex-direction: column;
-
-
 
 }
 
@@ -297,3 +295,57 @@ background-color: white;
 color: white;
   }
 
+
+  /* ------------------------------------------------------------- */
+  
+  .affiche {
+ 
+    overflow: hidden;
+  }
+  
+  .scroll-wrapper_g {
+    display: flex;
+    animation: defilement_g 60s alternate infinite;
+  }
+  .scroll-wrapper_d {
+    display: flex;
+    animation: defilement_d 60s alternate infinite;
+  }
+
+  .affiche.scroll img{
+    flex-shrink: 0;
+
+  }
+
+  #now:hover{
+    animation-play-state: paused;
+  }
+
+  #top:hover{
+    animation-play-state: paused;
+  }
+  #popular:hover{
+    animation-play-state: paused;
+  }
+  
+  @keyframes defilement_g {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+
+}
+    @keyframes defilement_d {
+        0% {
+          transform: translateX(-50%);
+        }
+        100% {
+          transform: translateX(0%);
+        }
+        
+        
+  }
+  
+ 
