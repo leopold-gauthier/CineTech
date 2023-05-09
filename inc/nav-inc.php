@@ -19,7 +19,7 @@
                 <?php if (!empty($_SESSION)) {
                 ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Favoris</a>
+                        <a class="nav-link" href="./favoris.php">Favoris</a>
                     </li>
                 <?php
                 } ?>

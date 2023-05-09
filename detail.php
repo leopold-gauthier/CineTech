@@ -168,7 +168,7 @@
 if (isset($_SESSION['user'])) {
 
 
-    $recup = $bdd->prepare("SELECT * FROM `favori` WHERE id_utilisateur = ? AND id_film = ?");
+    $recup = $bdd->prepare("SELECT * FROM `favoris` WHERE id_utilisateur = ? AND id_film = ?");
     $recup->execute([$_SESSION['user']->id, $_GET['id']]);
     $favoris = $recup->fetch(PDO::FETCH_ASSOC);
 
@@ -182,11 +182,11 @@ if (isset($_SESSION['user'])) {
         $id_utilisateur = $_SESSION['user']->id;
 
         if (empty($favoris)) {
-            $stmt = $bdd->prepare("INSERT INTO favori (`id_film` ,`type` ,`id_utilisateur` ) VALUES (?,?,?) ");
+            $stmt = $bdd->prepare("INSERT INTO favoris (`id_film` ,`type` ,`id_utilisateur` ) VALUES (?,?,?) ");
             $stmt->execute(array($id_film, $type, $id_utilisateur));
             header('Location: ./detail.php?id=' . $_GET['id'] . '&type=' . $_GET['type'] . '');
         } else {
-            $stmt = $bdd->prepare("DELETE FROM favori WHERE id_utilisateur = ? AND id_film = ?");
+            $stmt = $bdd->prepare("DELETE FROM favoris WHERE id_utilisateur = ? AND id_film = ?");
             $stmt->execute(array($id_utilisateur, $id_film));
             header('Location: ./detail.php?id=' . $_GET['id'] . '&type=' . $_GET['type'] . '');
         }

@@ -16,10 +16,6 @@ body{
 
 }
 
-#index{
-
-
-}
 /* --------------------- */
 /* GLOBAL */
 
@@ -48,6 +44,7 @@ height: 100vh;
 }
 
 #container{
+    height: 100%;
     border-top: 1px solid white;
     background-color: #272727;
     color: white;
@@ -130,7 +127,12 @@ nav a{
 height: 200px;
 }
 
+.favoris{
+    margin: 20px;
+    width: 330px;
+    text-align: center;
 
+}
 
 #film-description{
     margin: 0%;
@@ -223,6 +225,13 @@ h2 img{
     justify-content: space-around;
 }
 
+#films_favoris{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
 
 .media_poster {
     margin: 20px;
